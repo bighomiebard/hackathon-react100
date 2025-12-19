@@ -31,39 +31,41 @@ export default function DifficultyPage({ setView }) {
   };
 
   return (
-    <PageFrame
-      title="difficulty"
-      actionButton={
-        <Button onClick={handleDone} variant="grey" size="small">
-          done
-        </Button>
-      }
-    >
-      <ButtonGroup direction="row" gap="gap-10">
-        {difficulties.slice(0, 3).map((d) => (
-          <Button
-            key={d.key}
-            onClick={() => handleSelect(d)}
-            variant={selectedDifficulty?.key === d.key ? "primary" : "grey"}
-            size="medium"
-          >
-            {d.label}
+    <div>
+      <PageFrame
+        title="difficulty"
+        actionButton={
+          <Button onClick={handleDone} variant="grey" size="small">
+            done
           </Button>
-        ))}
-      </ButtonGroup>
+        }
+      >
+        <ButtonGroup direction="row" gap="gap-10">
+          {difficulties.slice(0, 3).map((d) => (
+            <Button
+              key={d.key}
+              onClick={() => handleSelect(d)}
+              variant={selectedDifficulty?.key === d.key ? "primary" : "grey"}
+              size="medium"
+            >
+              {d.label}
+            </Button>
+          ))}
+        </ButtonGroup>
 
-      <ButtonGroup direction="row" gap="gap-10">
-        {difficulties.slice(3).map((d) => (
-          <Button
-            key={d.key}
-            onClick={() => handleSelect(d)}
-            variant={selectedDifficulty?.key === d.key ? "primary" : "grey"}
-            size="medium"
-          >
-            {d.label}
-          </Button>
-        ))}
-      </ButtonGroup>
-    </PageFrame>
+        <ButtonGroup direction="row" gap="gap-10">
+          {difficulties.slice(3).map((d) => (
+            <Button
+              key={d.key}
+              onClick={() => handleSelect(d)}
+              variant={selectedDifficulty?.key === d.key ? "primary" : "grey"}
+              size="medium"
+            >
+              {d.label}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </PageFrame>
+    </div>
   );
 }

@@ -9,6 +9,7 @@ import KeybindPage from "./Components/windowScreens/keybindPage.jsx";
 import LeaderboardPage from "./Components/windowScreens/lboardPage.jsx";
 import PlayPage from "./Components/windowScreens/playPage.jsx";
 import EndPage from "./Components/windowScreens/endPage.jsx";
+import ConfigFooter from "./Components/uiComponents/ConfigFooter.jsx";
 import { VIEWS } from "./Components/windowScreens/pageHandler.jsx";
 
 
@@ -55,6 +56,8 @@ export default function App() {
   return (
     <>
       {renderView()}
+      {/* Show footer on all pages except HOME and LEADERBOARD */}
+      {view !== VIEWS.HOME && view !== VIEWS.LEADERBOARD && <ConfigFooter />}
     </>
   );
 }

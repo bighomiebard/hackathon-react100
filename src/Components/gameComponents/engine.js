@@ -84,14 +84,24 @@ export function stopGame() {
   endGame();
 }
 
-export function handleKeyPress(key) {
+export function handleKeyPress(code) {
   if (!state.isRunning) return;
   if (state.phase !== PHASES.ACTIVE) return;
 
+  // Ignore modifier-only keys globally
+  if (code === "ShiftLeft" || code === "ShiftRight") return;
+
+  // Dev mode input
+  if (config.keyset === "dev") {
+    handleDevInput(code);
+    return;
+  }
+
+  // Arrow mode input
   const direction = state.sequence[state.index];
   const expectedKey = config.bindings[direction];
 
-  if (key === expectedKey) {
+  if (code === expectedKey) {
     state.index++;
 
     // Sequence completed successfully
@@ -121,6 +131,37 @@ export function handleKeyPress(key) {
   }
 }
 
+function handleDevInput(code) {
+  // Only allow keys explicitly enabled in the dev pool
+  if (!config.pool.includes(code)) {
+    handleMistake();
+    return;
+  }
+
+  state.index++;
+
+  // Sequence completed successfully
+  if (state.index === state.sequence.length) {
+    state.score++;
+    state.successTime = Date.now();
+    clearTimeout(inputTimer);
+
+    pauseTimer = setTimeout(() => {
+      state.sequence = generateSequence(config);
+      state.index = 0;
+      state.successTime = null;
+      state.phase = PHASES.ACTIVE;
+      notify();
+      startInputTimer();
+    }, 200);
+
+    notify();
+    return;
+  }
+
+  startInputTimer();
+  notify();
+}
 
 function handleMistake() {
   clearTimeout(inputTimer);

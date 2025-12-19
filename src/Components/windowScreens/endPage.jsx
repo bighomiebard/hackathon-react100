@@ -5,42 +5,48 @@ import { restartGame, subscribe, getState, PHASES } from "../gameComponents/engi
 import { getPlayerName } from "../gameComponents/playerName.js";
 import { submitScore } from "../../api/lboardAPI.js";
 import { getCurrentGame } from "../gameComponents/config.js";
+import { getRankedEligibility } from "../gameComponents/rankedPolicy.js";
 
 export default function EndPage({ setView }) {
   const [score, setScore] = useState(0);
   const [mistakes, setMistakes] = useState(0);
 
   const submittedRef = useRef(false);
-  const playerName = getPlayerName();
+  //uncomment in final product
+  //const playerName = getPlayerName();
+  const playerName = "Test User"; //temporary for testing purposes
 
   // Helper function to attempt submission
-  const trySubmit = (engineState) => {
-    const gameConfig = getCurrentGame();
-    
-    if (
-      engineState.phase === PHASES.ENDED && //end phase
-      !submittedRef.current && //not yet submitted
-      playerName && //has name
-      engineState.score > 0 && //positive score
-      gameConfig.mode.name === "ranked" //ranked mode
-    ) {
-      submittedRef.current = true;
+const trySubmit = (engineState) => {
+  const gameConfig = getCurrentGame();
+  const eligibility = getRankedEligibility(gameConfig);
 
-      submitScore({
-        name: playerName,
-        score: engineState.score,
-        difficulty: gameConfig.difficulty.name,
-        keyset: gameConfig.keyset,
-      }).catch((err) => {
-        console.error("Failed to submit score:", err);
-      });
-    }
+  if (
+    engineState.phase === PHASES.ENDED && // end phase
+    !submittedRef.current && // not yet submitted
+    playerName && // has name
+    // turn on in final product
+    // engineState.score > 0 && // positive score
+    eligibility.eligible // ranked-eligible config (mode/difficulty/devProfile)
+  ) {
+    submittedRef.current = true;
 
-    // Reset submission flag when game returns to active
-    if (engineState.phase === PHASES.ACTIVE) {
-      submittedRef.current = false;
-    }
-  };
+    submitScore({
+      name: playerName,
+      score: engineState.score,
+      difficulty: gameConfig.difficulty.name,
+      keyset: gameConfig.keyset,
+      devProfile: gameConfig.keyset === "dev" ? gameConfig.devProfile : null,
+    }).catch((err) => {
+      console.error("Failed to submit score:", err);
+    });
+  }
+
+  // Reset submission flag when game returns to active
+  if (engineState.phase === PHASES.ACTIVE) {
+    submittedRef.current = false;
+  }
+};
 
   useEffect(() => {
     // Try to submit on mount with current engine state

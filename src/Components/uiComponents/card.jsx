@@ -5,18 +5,24 @@ export default function Card({
 }) {
   return (
     <div className={`
-      bg-slate-900/70 border border-white/10 rounded-2xl p-6 text-center
-      shadow-lg shadow-black/40 transition-transform transition-[filter] duration-150
+      bg-gradient-to-br from-slate-900/80 to-slate-950/90 border border-cyan-500/30 rounded-lg p-6 text-center
+      shadow-lg shadow-cyan-500/10 transition-all duration-150
+      relative overflow-hidden
       ${className}
     `}>
-      {title && (
-        <h3 className="text-white/70 text-sm font-semibold uppercase mb-2">
-          {title}
-        </h3>
-      )}
-      <p className="text-white text-4xl font-bold">
-        {value}
-      </p>
+      {/* Arcade glow effect */}
+      <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 to-transparent pointer-events-none rounded-lg" />
+      
+      <div className="relative z-10">
+        {title && (
+          <h3 className="text-cyan-400/90 text-xs font-bold uppercase mb-2 tracking-wider">
+            {title}
+          </h3>
+        )}
+        <p className="text-white text-4xl font-bold font-mono">
+          {value}
+        </p>
+      </div>
     </div>
   );
 }

@@ -4,13 +4,29 @@ import ButtonGroup from "../uiComponents/ButtonGroup.jsx";
 import { VIEWS } from "./pageHandler.jsx";
 import { setPlayerName, getPlayerName } from "../gameComponents/playerName.js";
 import { containsProfanity } from "../../api/curseAPI.js";
+import { generateRandomName } from "../../api/randomNameAPI.js";
 
 export default function StartPage({ setView }) {
   const [nameInput, setNameInput] = useState(getPlayerName());
   const [isChecking, setIsChecking] = useState(false);
   const [error, setError] = useState(null);
+  const [isGenerating, setIsGenerating] = useState(false);
   
-  const isNameValid = nameInput.trim().length > 0;
+  //uncomment in final product
+  //const isNameValid = nameInput.trim().length > 0;
+  const isNameValid = true; //temporary for testing purposes
+  
+  const handleGenerateName = async () => {
+    setIsGenerating(true);
+    try {
+      const generatedName = await generateRandomName();
+      if (generatedName) {
+        setNameInput(generatedName);
+      }
+    } finally {
+      setIsGenerating(false);
+    }
+  };
   
   const handleContinue = async () => {
     if (!isNameValid) return;
@@ -61,14 +77,22 @@ export default function StartPage({ setView }) {
             placeholder="Your name"
             className="px-4 py-2 rounded text-center text-lg w-64 focus:outline-none focus:ring-2 focus:ring-blue-400"
             autoFocus
-            disabled={isChecking}
+            disabled={isChecking || isGenerating}
           />
           {error && (
             <p className="text-red-400 text-sm mt-3">{error}</p>
           )}
         </div>
 
-        <ButtonGroup>
+        <ButtonGroup gap="gap-4">
+          <Button
+            onClick={handleGenerateName}
+            disabled={isChecking || isGenerating}
+            variant="grey"
+            size="medium"
+          >
+            Generate Name
+          </Button>
           <Button
             onClick={handleContinue}
             disabled={!isNameValid || isChecking}

@@ -27,7 +27,7 @@ export default function PageFrame({
 
       {/* Panel centered in remaining space with entrance animation */}
       <div className="flex-1 flex items-center justify-center">
-        <div className={`w-full max-w-6xl p-12 md:p-16 rounded-2xl border border-white/10 bg-black/30 ${animationClasses} ${panelClassName}`}>
+        <div className={`w-full max-w-6xl p-12 md:p-16 rounded-2xl bg-black/30 ${animationClasses} ${panelClassName}`}>
           <div className="flex flex-col gap-12 items-center">
             {children}
           </div>

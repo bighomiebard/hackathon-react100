@@ -36,39 +36,41 @@ export default function KeysetPage({ setView }) {
   };
 
   return (
-    <PageFrame
-      title="keyset"
-      actionButton={
-        <Button onClick={handleDone} variant="grey" size="small">
-          done
-        </Button>
-      }
-    >
-      {/* Row 1: Arrows and Dev mode */}
-      <ButtonGroup direction="row" gap="gap-10">
-        {keysets.map((k) => (
+    <div>
+      <PageFrame
+        title="keyset"
+        actionButton={
+          <Button onClick={handleDone} variant="grey" size="small">
+            done
+          </Button>
+        }
+      >
+        {/* Row 1: Arrows and Dev mode */}
+        <ButtonGroup direction="row" gap="gap-10">
+          {keysets.map((k) => (
+            <Button
+              key={k.key}
+              onClick={() => handleSelect(k)}
+              variant={selectedKeyset?.key === k.key ? 'primary' : 'grey'}
+              size="medium"
+            >
+              {k.label}
+            </Button>
+          ))}
+        </ButtonGroup>
+
+        {/* Row 2: Keybinds button */}
+        <ButtonGroup direction="row" gap="gap-10">
           <Button
-            key={k.key}
-            onClick={() => handleSelect(k)}
-            variant={selectedKeyset?.key === k.key ? 'primary' : 'grey'}
+            onClick={handleKeybinds}
+            variant="grey"
             size="medium"
           >
-            {k.label}
+            keybinds
           </Button>
-        ))}
-      </ButtonGroup>
-
-      {/* Row 2: Keybinds button */}
-      {/* <ButtonGroup direction="row" gap="gap-10">
-        <Button
-          onClick={handleKeybinds}
-          variant="grey"
-          size="medium"
-        >
-          keybinds
-        </Button>
-      </ButtonGroup> */}
-    </PageFrame>
+        </ButtonGroup>
+      </PageFrame>
+    </div>
   );
 }
 

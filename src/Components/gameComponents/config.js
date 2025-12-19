@@ -12,6 +12,7 @@ let currentGame = {
   keyset: "arrows", // "arrows" | "dev"
   bindings: structuredClone(defaultArrowBinds),
   pool: structuredClone(defaultDevPool),
+  devProfile: "default",  // "default" | "noshift" | "custom"
 };
 
 //function to get current game settings
@@ -41,6 +42,18 @@ export function setKeyset(keyset) {
     throw new Error(`Invalid keyset: ${keyset}`);
   }
   currentGame.keyset = keyset;
+
+  // Reset dev profile when leaving dev mode
+  if (keyset !== "dev") {
+    currentGame.devProfile = "default";
+  }
+}
+//update dev profile
+export function setDevProfile(profile) {
+  if (profile !== "default" && profile !== "noshift" && profile !== "custom") {
+    throw new Error(`Invalid dev profile: ${profile}`);
+  }
+  currentGame.devProfile = profile;
 }
 
 //update keybindings (arrows)

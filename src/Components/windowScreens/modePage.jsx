@@ -28,27 +28,29 @@ export default function ModePage({ setView }) {
   };
 
   return (
-    <PageFrame
-      title="mode"
-      actionButton={
-        <Button onClick={handleDone} variant="grey" size="small">
-          done
-        </Button>
-      }
-    >
-      {/* Mode buttons */}
-      <ButtonGroup direction="row" gap="gap-10">
-        {modes.map((m) => (
-          <Button
-            key={m.key}
-            onClick={() => handleSelect(m)}
-            variant={selectedMode?.key === m.key ? "primary" : "grey"}
-            size="medium"
-          >
-            {m.label}
+    <div>
+      <PageFrame
+        title="mode"
+        actionButton={
+          <Button onClick={handleDone} variant="grey" size="small">
+            done
           </Button>
-        ))}
-      </ButtonGroup>
-    </PageFrame>
+        }
+      >
+        {/* Mode buttons */}
+        <ButtonGroup direction="row" gap="gap-10">
+          {modes.map((m) => (
+            <Button
+              key={m.key}
+              onClick={() => handleSelect(m)}
+              variant={selectedMode?.key === m.key ? "primary" : "grey"}
+              size="medium"
+            >
+              {m.label}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </PageFrame>
+    </div>
   );
 }

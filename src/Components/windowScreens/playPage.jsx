@@ -22,7 +22,7 @@ export default function PlayPage({ setView }) {
   useEffect(() => {
     const unsubscribe = subscribe(setEngineState);
 
-    const onKeyDown = (e) => handleKeyPress(e.key);
+    const onKeyDown = (e) => handleKeyPress(e.code);
     window.addEventListener("keydown", onKeyDown);
 
     return () => {

@@ -32,18 +32,30 @@ export const defaultArrowBinds = {
 };
 //WASD template
 export const arrowWASDBinds = {
-  up: "w",
-  down: "s",
-  left: "a",
-  right: "d",
+  up: "KeyW",
+  down: "KeyS",
+  left: "KeyA",
+  right: "KeyD",
 };
 
-//default dev template
-export const defaultDevPool =
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()[]{}\|/?.,<>;:`~-+=_"
-    .split("");
+// Dev pool based on physical keys only (no Shift)
+export const defaultDevPool = [
+  // Letters
+  "KeyA","KeyB","KeyC","KeyD","KeyE","KeyF","KeyG",
+  "KeyH","KeyI","KeyJ","KeyK","KeyL","KeyM",
+  "KeyN","KeyO","KeyP","KeyQ","KeyR","KeyS","KeyT",
+  "KeyU","KeyV","KeyW","KeyX","KeyY","KeyZ",
 
-//dev template without shift characters
-export const noShiftPool =
-  "abcdefghijklmnopqrstuvwxyz0123456789-=\[]';/.,`"
-    .split("");
+  // Numbers (top row, Shift gives symbols)
+  "Digit0","Digit1","Digit2","Digit3","Digit4",
+  "Digit5","Digit6","Digit7","Digit8","Digit9",
+
+  // Punctuation / symbols (unshifted base)
+  "Minus","Equal",
+  "BracketLeft","BracketRight",
+  "Backslash",
+  "Semicolon","Quote",
+  "Comma","Period","Slash",
+  "Backquote"
+];
+
